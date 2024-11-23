@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Catch the Star</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl font-bold text-center mb-8 text-yellow-300 animate__animated animate__fadeIn">
+                🌟 Leaderboard 🌟
+            </h1>
+            
+            <div class="bg-gray-800 rounded-lg shadow-lg p-6 animate__animated animate__fadeIn">
+                <% if (typeof error !== 'undefined' && error !== null) { %>
+                    <div class="text-red-500 text-center mb-4"><%= error %></div>
+                <% } %>
+                
+                <% if (scores && scores.length > 0) { %>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-yellow-300 border-b border-gray-700">
+                                    <th class="px-4 py-2 text-left">Rank</th>
+                                    <th class="px-4 py-2 text-left">Player</th>
+                                    <th class="px-4 py-2 text-left">Score</th>
+                                    <th class="px-4 py-2 text-left">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% scores.forEach((score, index) => { %>
+                                    <tr class="hover:bg-gray-700 transition-colors border-b border-gray-700">
+                                        <td class="px-4 py-2"><%= index + 1 %></td>
+                                        <td class="px-4 py-2"><%= score.username || 'Anonymous' %></td>
+                                        <td class="px-4 py-2"><%= score.score %></td>
+                                        <td class="px-4 py-2"><%= new Date(score.date).toLocaleDateString() %></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } else { %>
+                    <p class="text-center text-gray-400">No scores yet. Be the first to play!</p>
+                <% } %>
+            </div>
+
+            <div class="mt-8 text-center">
+                <a href="/game" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-full transition-colors animate__animated animate__fadeIn">
+                    Play Game
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

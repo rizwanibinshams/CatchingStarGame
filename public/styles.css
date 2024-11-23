@@ -1,0 +1,54 @@
+@keyframes sparkle {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+.star-click {
+    position: absolute;
+    pointer-events: none;
+    animation: starBurst 0.5s ease-out forwards;
+}
+
+@keyframes starBurst {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+#star {
+    animation: sparkle 1.5s infinite;
+}
+
+#star:hover {
+    transform: scale(1.2);
+}
+
+.score-popup {
+    position: absolute;
+    color: #ffd700;
+    font-weight: bold;
+    pointer-events: none;
+    animation: floatUp 0.8s ease-out forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+}

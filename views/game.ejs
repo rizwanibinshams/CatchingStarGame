@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catch the Star Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        .star-burst {
+            position: fixed;
+            pointer-events: none;
+            animation: burst 0.5s ease-out forwards;
+            z-index: 10;
+        }
+        @keyframes burst {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        #star {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.3s ease-out;
+            z-index: 5;
+            width: 32px;
+            height: 32px;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .game-container {
+            background: radial-gradient(circle at center, #1a237e 0%, #0d1117 100%);
+            position: relative;
+            overflow: hidden;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .star-bg {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <%- include('partials/header') %>
+    
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Game Area -->
+            <div class="md:w-3/4">
+                <div class="bg-gray-800 rounded-2xl shadow-2xl p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="text-2xl font-bold text-yellow-300">
+                            Score: <span id="score" class="text-white">0</span>
+                        </div>
+                        <div class="text-2xl font-bold text-yellow-300">
+                            Time: <span id="timer" class="text-white">30</span>s
+                        </div>
+                    </div>
+                    
+                    <div id="gameArea" class="game-container w-full h-[500px] rounded-xl relative">
+                        <div id="star" class="text-yellow-300">
+                            <svg viewBox="0 0 20 20" fill="currentColor" class="w-full h-full">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center space-x-4">
+                    <a href="/" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-bold transition-colors">
+                        Home
+                    </a>
+                    <a href="/leaderboard" class="bg-yellow-500 hover:bg-yellow-400 text-black px-6 py-2 rounded-lg font-bold transition-colors">
+                        Leaderboard
+                    </a>
+                </div>
+            </div>
+            
+            <!-- High Scores Section -->
+            <div class="md:w-1/4">
+                <div class="bg-gray-800 rounded-2xl shadow-2xl p-6">
+                    <h2 class="text-2xl font-bold text-yellow-300 mb-4 text-center">Top Scores</h2>
+                    <div id="highScores" class="space-y-3">
+                        <% if (scores && scores.length > 0) { %>
+                            <% scores.forEach((score, index) => { %>
+                                <div class="flex justify-between items-center p-2 <%= index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-750' %> rounded">
+                                    <span class="font-bold <%= index < 3 ? 'text-yellow-300' : 'text-gray-300' %>">
+                                        <%= score.username %>
+                                    </span>
+                                    <span class="text-white"><%= score.score %></span>
+                                </div>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="text-gray-400 text-center">No scores yet!</div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="gameOverModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <!-- Modal content will be dynamically inserted here -->
+    </div>
+
+    <%- include('partials/footer') %>
+    <script src="/game.js"></script>
+    <script>
+        // Create star background
+        const gameArea = document.getElementById('gameArea');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star-bg';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.opacity = Math.random();
+            star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite`;
+            gameArea.appendChild(star);
+        }
+    </script>
+</body>
+</html>

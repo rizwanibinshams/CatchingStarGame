@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Catch the Star</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <%- include('partials/header') %>
+    
+    <main class="container mx-auto px-4 py-16">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl font-bold mb-8 text-yellow-300 animate__animated animate__fadeIn">
+                🌟 Welcome to Catch the Star 🌟
+            </h1>
+            
+            <% if (user) { %>
+                <p class="text-2xl mb-8 animate__animated animate__fadeIn animate__delay-1s">
+                    Welcome back, <span class="text-yellow-300 font-bold"><%= user.username %></span>!
+                </p>
+                <div class="mb-8">
+                    <p class="text-xl mb-2">Your Stats:</p>
+                    <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                        <div class="bg-gray-800 p-4 rounded-lg">
+                            <p class="text-yellow-300 text-2xl font-bold"><%= user.highScore %></p>
+                            <p class="text-gray-400">High Score</p>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded-lg">
+                            <p class="text-yellow-300 text-2xl font-bold"><%= user.gamesPlayed %></p>
+                            <p class="text-gray-400">Games Played</p>
+                        </div>
+                    </div>
+                </div>
+            <% } else { %>
+                <p class="text-2xl mb-8 animate__animated animate__fadeIn animate__delay-1s">
+                    Ready to catch some stars? Sign in or play as a guest!
+                </p>
+            <% } %>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4 animate__animated animate__fadeIn animate__delay-2s">
+                <a href="/game" class="bg-yellow-500 hover:bg-yellow-400 text-black px-8 py-3 rounded-lg font-bold text-lg transition-colors">
+                    Play Game
+                </a>
+                <% if (!user) { %>
+                    <a href="/auth/signin" class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-lg font-bold text-lg transition-colors">
+                        Sign In
+                    </a>
+                <% } %>
+            </div>
+
+            <div class="mt-16 bg-gray-800 rounded-lg p-8 animate__animated animate__fadeIn animate__delay-3s">
+                <h2 class="text-2xl font-bold mb-4 text-yellow-300">How to Play</h2>
+                <div class="text-left max-w-2xl mx-auto">
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li>Click or tap the star as quickly as you can</li>
+                        <li>Each catch earns you 1 point</li>
+                        <li>The star moves to a new random position after each catch</li>
+                        <li>You have 30 seconds to catch as many stars as possible</li>
+                        <li>Try to beat your high score!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
